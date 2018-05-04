@@ -1,0 +1,6 @@
+{
+	"commands":{
+		"/start": "Hello, I'm Telegram bot for Urban Dictionary!",	
+		"/help" : "Write word and take urban explanation)))"
+	}
+}
