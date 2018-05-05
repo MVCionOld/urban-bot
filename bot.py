@@ -7,7 +7,7 @@ import config
 import urban
 
 
-def run_bot(debug=True):
+def run_bot(debug=config.DEBUG):
 
     bot = telebot.TeleBot(
         config.URBAN_BOT_TOKEN if len(sys.argv) == 1 else sys.argv[-1]

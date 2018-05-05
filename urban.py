@@ -1,6 +1,8 @@
 import bs4
 import requests
 
+import config
+
 url_pattern = "http://www.urbandictionary.com/define.php?term=%s"
 
 
@@ -9,7 +11,7 @@ class UrbanDictionaryScrapper:
     def __init__(self):
         pass
 
-    def search(self, word, debug=True):
+    def search(self, word, debug=config.DEBUG):
 
         r = requests.get(url_pattern % word)
 
@@ -25,12 +27,3 @@ class UrbanDictionaryScrapper:
 
     def fix(self, explanation):
         return explanation.strip().replace("&apos;", "'")
-
-
-if __name__ == '__main__':
-    while True:
-        request = input()
-        if request == 'exit':
-            break
-        else:
-            print(UrbanDictionaryScrapper().search(request))
