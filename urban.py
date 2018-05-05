@@ -5,10 +5,9 @@ url_pattern = "http://www.urbandictionary.com/define.php?term=%s"
 
 
 def search(word, debug=True):
-    # get request of searching word
+
     r = requests.get(url_pattern % word)
 
-    # action for invalid url or wrong word
     if r.status_code != requests.codes.ok:
         if debug:
             print('Wrong url or unknown word!\nError: [%s]\n' % r.status_code)
@@ -17,7 +16,7 @@ def search(word, debug=True):
     parser = bs4.BeautifulSoup(r.content, 'html.parser')
     explanation = parser.find('div', {'class': 'meaning'}).get_text()
 
-    return explanation
+    return fix(explanation)
 
 
 def fix(explanation):
