@@ -10,7 +10,7 @@ import urban
 
 bot = telebot.TeleBot(
     config.URBAN_BOT_TOKEN if len(sys.argv) == 1 else sys.argv[-1],
-    threaded=False
+    threaded=True
 )
 
 urban_scrapper = urban.UrbanDictionaryScrapper()
