@@ -18,7 +18,7 @@ def search(word, debug=True):
     bs_obj = bs4.BeautifulSoup(r.content, 'html.parser')
     exp = bs_obj.find('div', {'class': 'meaning'}).get_text()
 
-    return exp.strip()
+    return exp.strip().replace("&apos;", "'")
 
 
 if __name__ == '__main__':
