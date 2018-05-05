@@ -71,6 +71,4 @@ bot.set_webhook(url=config.WEBHOOK_URL_BASE + config.WEBHOOK_URL_PATH,
 app.run(host=config.WEBHOOK_LISTEN,
         port=config.WEBHOOK_PORT,
         ssl_context=(config.WEBHOOK_SSL_CERT, config.WEBHOOK_SSL_PRIV),
-        debug=True)
-
-#bot.polling(none_stop=True)
+        debug=config.DEBUG)
