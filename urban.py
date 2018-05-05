@@ -1,13 +1,11 @@
 import bs4
 import requests
 
-
 url = "http://www.urbandictionary.com/define.php?term=%s"
 
 
 def search(word):
-
-    # get request of searching word 
+    # get request of searching word
     r = requests.get(url % word)
 
     # action for invalid url or wrong word
@@ -23,3 +21,8 @@ def search(word):
     exp = bs_obj.find('div', {'class': 'meaning'}).get_text()
 
     return exp
+
+
+if __name__ == '__main__':
+    while True:
+        pass
