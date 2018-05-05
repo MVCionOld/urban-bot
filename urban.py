@@ -1,30 +1,29 @@
 import bs4
 import requests
 
+import config
+
 url_pattern = "http://www.urbandictionary.com/define.php?term=%s"
 
 
-def search(word, debug=True):
+class UrbanDictionaryScrapper:
 
-    # get request of searching word
-    r = requests.get(url_pattern % word)
+    def __init__(self):
+        pass
 
-    # action for invalid url or wrong word
-    if r.status_code != requests.codes.ok:
-        if debug:
-            print('Wrong url or unknown word!\nError: [%s]\n' % r.status_code)
-        return None
+    def search(self, word, debug=config.DEBUG):
 
-    bs_obj = bs4.BeautifulSoup(r.content, 'html.parser')
-    exp = bs_obj.find('div', {'class': 'meaning'}).get_text()
+        r = requests.get(url_pattern % word)
 
-    return exp.strip().replace("&apos;", "'")
+        if r.status_code != requests.codes.ok:
+            if debug:
+                print('Wrong url or unknown word!\nError: [%s]\n' % r.status_code)
+            return None
 
+        parser = bs4.BeautifulSoup(r.content, 'html.parser')
+        explanation = parser.find('div', {'class': 'meaning'}).get_text()
 
-if __name__ == '__main__':
-    while True:
-        request = input()
-        if request == 'exit':
-            break
-        else:
-            print(search(request))
+        return self.fix(explanation)
+
+    def fix(self, explanation):
+        return explanation.strip().replace("&apos;", "'")
