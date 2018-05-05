@@ -22,6 +22,10 @@ def run_bot(debug=config.DEBUG):
     def handle_start_help(message):
         bot.send_message(message.chat.id, bot_activity['commands'][message.text])
 
+    @bot.message_handler(commands=['mem'])
+    def send_mem(message):
+        bot.send_message(message.chat.id, bot_activity['commands'][message.text])
+
     @bot.message_handler(content_types=['text'])
     def get_explanation(message):
 
