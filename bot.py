@@ -18,19 +18,23 @@ urban_scrapper = urban.UrbanDictionaryScrapper()
 with open('botCommands.json') as bot_activity_file:
     bot_activity = json.loads(bot_activity_file.read())
 
-bot.remove_webhook()
-time.sleep(1)
-bot.set_webhook(url=config.WEBHOOK_URL_BASE + config.WEBHOOK_URL_PATH,
-                certificate=open(config.WEBHOOK_SSL_CERT, 'r'))
-
 app = flask.Flask(__name__)
 
 
-@app.route('/{}'.format(secret), methods=["POST"])
+@app.route('/', methods=['GET', 'HEAD'])
+def index():
+    return ''
+
+
+@app.route(config.WEBHOOK_URL_PATH, methods=['POST'])
 def webhook():
-    bot.process_new_updates([telebot.types.Update.de_json(flask.request.stream.read().decode("utf-8"))])
-    print("Message")
-    return "ok", 200
+    if flask.request.headers.get('content-type') == 'application/json':
+        json_string = flask.request.get_data().decode('utf-8')
+        update = telebot.types.Update.de_json(json_string)
+        bot.process_new_updates([update])
+        return ''
+    else:
+        flask.abort(403)
 
 
 @bot.message_handler(commands=['start', 'help'])
@@ -58,5 +62,15 @@ def get_explanation(message):
 
     bot.send_message(message.chat.id, explanation.strip().format(message.text))
 
+
+bot.remove_webhook()
+time.sleep(1)
+bot.set_webhook(url=config.WEBHOOK_URL_BASE + config.WEBHOOK_URL_PATH,
+                certificate=open(config.WEBHOOK_SSL_CERT, 'r'))
+
+app.run(host=config.WEBHOOK_LISTEN,
+        port=config.WEBHOOK_PORT,
+        ssl_context=(config.WEBHOOK_SSL_CERT, config.WEBHOOK_SSL_PRIV),
+        debug=True)
 
 bot.polling(none_stop=True)
