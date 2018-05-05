@@ -26,4 +26,4 @@ class UrbanDictionaryScrapper:
         return self.fix(explanation)
 
     def fix(self, explanation):
-        return explanation.strip().replace("&apos;", "'")
+        return explanation.strip().replace("&apos;", "'").replace('&quot;', '"')
