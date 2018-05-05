@@ -28,7 +28,7 @@ def run_bot(debug=True):
         else:
             explanation = urban.search(message.text, debug=debug)
 
-        if debug:
+        if debug and explanation is not None:
             print("[{0}, {1}]:\n{2}\n".format(message.chat.id, message.text, explanation.strip()))
 
         if explanation is None:
