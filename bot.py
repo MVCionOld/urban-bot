@@ -73,4 +73,4 @@ app.run(host=config.WEBHOOK_LISTEN,
         ssl_context=(config.WEBHOOK_SSL_CERT, config.WEBHOOK_SSL_PRIV),
         debug=True)
 
-bot.polling(none_stop=True)
+#bot.polling(none_stop=True)
