@@ -12,8 +12,7 @@ def search(word, debug=True):
     # action for invalid url or wrong word
     if r.status_code != requests.codes.ok:
         if debug:
-            print('Wrong url or unknown word!')
-            print('Error: [%s]' % r.status_code)
+            print('Wrong url or unknown word!\nError: [%s]\n' % r.status_code)
         return None
 
     bs_obj = bs4.BeautifulSoup(r.content, 'html.parser')
