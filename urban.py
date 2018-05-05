@@ -36,6 +36,6 @@ class UrbanDictionaryScrapper:
         return self.filter(explanation)
 
     def filter(self, explanation):
-        for k, v in HTML_CODE_TABLE:
-            explanation = explanation.replace(k, v)
+        for code, character in HTML_CODE_TABLE.items():
+            explanation = explanation.replace(code, character)
         return explanation
