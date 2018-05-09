@@ -2,6 +2,7 @@ import bs4
 import requests
 
 import config
+import logger
 
 URL = "http://www.urbandictionary.com/define.php?term=%s"
 

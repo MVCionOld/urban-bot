@@ -6,6 +6,7 @@ import flask
 import telebot
 
 import config
+import logger
 import urban
 
 bot = telebot.TeleBot(
@@ -13,7 +14,7 @@ bot = telebot.TeleBot(
     threaded=True
 )
 
-urban_scrapper = urban.UrbanDictionaryScrapper()
+scrapper = urban.UrbanDictionaryScrapper()
 
 with open('botCommands.json') as bot_activity_file:
     bot_activity = json.loads(bot_activity_file.read())
@@ -57,9 +58,9 @@ def handle_start_help(message):
 @bot.message_handler(content_types=['text'])
 def get_explanation(message):
     if len(message.text.split()) > 1:
-        explanation = urban_scrapper.search("+".join(message.text.split()))
+        explanation = scrapper.search("+".join(message.text.split()))
     else:
-        explanation = urban_scrapper.search(message.text)
+        explanation = scrapper.search(message.text)
 
     if config.DEBUG and explanation is not None:
         print("[{0}, {1}]:\n{2}\n".format(message.chat.id, message.text, explanation.strip()))
