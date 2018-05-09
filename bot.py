@@ -67,7 +67,7 @@ def get_explanation(message):
     else:
         explanation = scrapper.search(message.text)
 
-    logger.bot_logger('Send to %s: %s...'
+    logger.bot_logger.info('Send to %s: %s...'
                       % (message.chat.id, explanation[:min(20, len(explanation))]))
 
     if explanation is None:
