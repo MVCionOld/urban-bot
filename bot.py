@@ -67,10 +67,12 @@ def get_explanation(message):
     else:
         explanation = scrapper.search(message.text)
 
+    explanation = "" if explanation is None else explanation
+
     logger.bot_logger.info('Send to %s: %s...'
                       % (message.chat.id, explanation[:min(20, len(explanation))]))
 
-    if explanation is None:
+    if not explanation:
         explanation = "There is no explanation for '{}' in Urban Dictionary."
 
     bot.send_message(message.chat.id, explanation.strip().format(message.text))
