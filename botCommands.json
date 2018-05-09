@@ -1,7 +1,7 @@
 {
   "commands": {
     "/start": "Hello, I'm Telegram bot for Urban Dictionary!",
-    "/mem": "Be ready for a mem of '%s'",
+    "/lang": "Hello!\nChoose your language:",
     "/statistics": "Current statistic of last 7 days:",
     "/help": "Type certain word or words combination and get urban explanation, bro."
   }

@@ -30,6 +30,8 @@ def index():
 def webhook():
     if flask.request.headers.get('content-type') == 'application/json':
         json_string = flask.request.get_data().decode('utf-8')
+        if config.DEBUG:
+            print(json_string)
         update = telebot.types.Update.de_json(json_string)
         bot.process_new_updates([update])
         return ''
@@ -42,8 +44,13 @@ def handle_start_help(message):
     bot.send_message(message.chat.id, bot_activity['commands'][message.text])
 
 
-@bot.message_handler(commands=['mem'])
-def send_mem(message):
+@bot.message_handler(commands=['statistics'])
+def handle_start_help(message):
+    bot.send_message(message.chat.id, bot_activity['commands'][message.text])
+
+
+@bot.message_handler(commands=['lang'])
+def handle_start_help(message):
     bot.send_message(message.chat.id, bot_activity['commands'][message.text])
 
 
