@@ -1,2 +1,6 @@
 __pycache__/
 .gitignore
+bot.log
+urban.log
+server.log
+translator.log

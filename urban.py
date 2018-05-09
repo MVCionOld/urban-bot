@@ -1,7 +1,7 @@
 import bs4
 import requests
 
-import config
+import logger
 
 URL = "http://www.urbandictionary.com/define.php?term=%s"
 
@@ -21,21 +21,22 @@ class UrbanDictionaryScrapper:
     def __init__(self):
         pass
 
-    def search(self, word, debug=config.DEBUG):
+    def search(self, word):
 
         r = requests.get(URL % word)
 
         if r.status_code != requests.codes.ok:
-            if debug:
-                print('Wrong url or unknown word!\nError: [%s]\n' % r.status_code)
+            logger.scrapper_logger.error('Wrong url or unknown word!')
+            logger.scrapper_logger.error(r)
             return None
 
         parser = bs4.BeautifulSoup(r.content, 'html.parser')
         explanation = parser.find('div', {'class': 'meaning'}).get_text()
-
-        return self.filter(explanation)
+        explanation = self.filter(explanation)
+        logger.scrapper_logger.info('%s:\n\t%s' % (word, explanation))
+        return explanation
 
     def filter(self, explanation):
         for code, character in HTML_CODE_TABLE.items():
             explanation = explanation.replace(code, character)
-        return explanation
+        return explanation.strip()
