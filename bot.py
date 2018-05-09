@@ -9,6 +9,8 @@ import config
 import logger
 import urban
 
+app = flask.Flask(__name__)
+
 bot = telebot.TeleBot(
     config.URBAN_BOT_TOKEN if len(sys.argv) == 1 else sys.argv[-1],
     threaded=True
@@ -18,8 +20,6 @@ scrapper = urban.UrbanDictionaryScrapper()
 
 with open('botCommands.json') as bot_activity_file:
     bot_activity = json.loads(bot_activity_file.read())
-
-app = flask.Flask(__name__)
 
 
 @app.route('/', methods=['GET', 'HEAD'])
@@ -60,7 +60,6 @@ def handle_start_help(message):
 
 @bot.message_handler(content_types=['text'])
 def get_explanation(message):
-
     logger.bot_logger.info("%s: %s" % (message.chat, message.text))
     if len(message.text.split()) > 1:
         explanation = scrapper.search("+".join(message.text.split()))
@@ -70,7 +69,7 @@ def get_explanation(message):
     explanation = "" if explanation is None else explanation
 
     logger.bot_logger.info('Send to %s: %s...'
-                      % (message.chat.id, explanation[:min(20, len(explanation))]))
+                           % (message.chat.id, explanation[:min(20, len(explanation))]))
 
     if not explanation:
         explanation = "There is no explanation for '{}' in Urban Dictionary."
