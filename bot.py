@@ -44,6 +44,16 @@ def handle_start_help(message):
     bot.send_message(message.chat.id, bot_activity['commands'][message.text])
 
 
+@bot.message_handler(commands=['statistics'])
+def handle_start_help(message):
+    bot.send_message(message.chat.id, bot_activity['commands'][message.text])
+
+
+@bot.message_handler(commands=['lang'])
+def handle_start_help(message):
+    bot.send_message(message.chat.id, bot_activity['commands'][message.text])
+
+
 @bot.message_handler(content_types=['text'])
 def get_explanation(message):
     if len(message.text.split()) > 1:
