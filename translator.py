@@ -69,8 +69,8 @@ class YandexTranslate:
         try:
             response = requests.get(self.url("langs"), params={"key": self.api_key}, proxies=proxies)
         except requests.exceptions.ConnectionError:
-            logger.translator_logger.error(self.error_codes[503])
-            raise YandexTranslateException(self.error_codes[503])
+            logger.translator_logger.error(YandexTranslateException(503))
+            raise YandexTranslateException(503)
         else:
             response = response.json()
         status_code = response.get("code", 200)
@@ -106,8 +106,8 @@ class YandexTranslate:
         try:
             response = requests.post(self.url("detect"), data=data, proxies=proxies)
         except ConnectionError:
-            logger.translator_logger.exception(self.error_codes[503])
-            raise YandexTranslateException(self.error_codes[503])
+            logger.translator_logger.exception(YandexTranslateException(503))
+            raise YandexTranslateException(503)
         except ValueError:
             logger.translator_logger.error(response)
             raise YandexTranslateException(response)
