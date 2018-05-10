@@ -155,3 +155,7 @@ class YandexTranslate:
             raise YandexTranslateException(status_code)
 
         return response
+
+
+if __name__ == '__main__':
+    pass
