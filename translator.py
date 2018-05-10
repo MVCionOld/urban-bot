@@ -8,6 +8,7 @@ class YandexTranslateException(Exception):
     """
     Default YandexTranslate exception
     """
+
     error_codes = {
         401: "ERR_KEY_INVALID",
         402: "ERR_KEY_BLOCKED",
@@ -39,6 +40,7 @@ class YandexTranslate:
         >>> len(translate.api_endpoints)
         3
         """
+
         if not key:
             raise YandexTranslateException(401)
         self.api_key = key
@@ -54,6 +56,7 @@ class YandexTranslate:
         >>> translate.url("translate")
         'https://translate.yandex.net/api/v1.5/tr.json/translate'
         """
+
         return self.api_url.format(version=self.api_version,
                                    endpoint=self.api_endpoints[endpoint])
 
@@ -66,6 +69,7 @@ class YandexTranslate:
         >>> len(directions) > 0
         True
         """
+
         try:
             response = requests.get(self.url("langs"), params={"key": self.api_key}, proxies=proxies)
         except requests.exceptions.ConnectionError:
@@ -73,6 +77,7 @@ class YandexTranslate:
             raise YandexTranslateException(503)
         else:
             response = response.json()
+
         status_code = response.get("code", 200)
         if status_code != 200:
             logger.translator_logger.exception(status_code)
@@ -88,6 +93,7 @@ class YandexTranslate:
         >>> len(languages) > 0
         True
         """
+
         return set(x.split("-")[0] for x in self.directions)
 
     def detect(self, text, proxies=None, format="plain"):
@@ -98,11 +104,13 @@ class YandexTranslate:
         >>> result == "en"
         True
         """
+
         data = {
             "text": text,
             "format": format,
             "key": self.api_key,
         }
+
         try:
             response = requests.post(self.url("detect"), data=data, proxies=proxies)
         except ConnectionError:
@@ -113,6 +121,7 @@ class YandexTranslate:
             raise YandexTranslateException(response)
         else:
             response = response.json()
+
         language = response.get("lang", None)
         status_code = response.get("code", 200)
         if status_code != 200:
