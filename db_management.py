@@ -1,3 +1,3 @@
 import sqlalchemy
 
-print("version SQLAlchemy: %s" % sqlalchemy.__version__)
+print("Version SQLAlchemy: %s" % sqlalchemy.__version__)

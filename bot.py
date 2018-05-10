@@ -1,5 +1,4 @@
 import json
-import sys
 import time
 
 import flask
@@ -7,19 +6,20 @@ import telebot
 
 import config
 import logger
+import translator
 import urban
 
-app = flask.Flask(__name__)
-
-bot = telebot.TeleBot(
-    config.URBAN_BOT_TOKEN if len(sys.argv) == 1 else sys.argv[-1],
-    threaded=True
-)
+translator = translator.YandexTranslate(config.YANDEX_TRANSLATE_API)
 
 scrapper = urban.UrbanDictionaryScrapper()
 
+bot = telebot.TeleBot(config.URBAN_BOT_TOKEN, threaded=True)
+
 with open('botCommands.json') as bot_activity_file:
     bot_activity = json.loads(bot_activity_file.read())
+
+
+app = flask.Flask(__name__)
 
 
 @app.route('/', methods=['GET', 'HEAD'])
