@@ -6,12 +6,9 @@ import telebot
 
 import config
 import logger
-import translate
-import scrappers
+import search_engine
 
-translator = translate.Translate(config.YANDEX_TRANSLATE_API)
-
-scrapper = scrappers.UrbanDictionaryScrapper()
+engine = search_engine.SearchEngine()
 
 bot = telebot.TeleBot(config.URBAN_BOT_TOKEN, threaded=True)
 
@@ -43,38 +40,28 @@ def webhook():
 @bot.message_handler(commands=['start', 'help'])
 def handle_start_help(message):
     logger.bot_logger.info("%s: %s" % (message.chat, message.text))
-    bot.send_message(message.chat.id, bot_activity['commands'][message.text])
+    bot.send_message(message.chat.id, bot_activity['commands']['en'][message.text])
 
 
 @bot.message_handler(commands=['statistics'])
 def handle_start_help(message):
     logger.bot_logger.info("%s: %s" % (message.chat, message.text))
-    bot.send_message(message.chat.id, bot_activity['commands'][message.text])
+    bot.send_message(message.chat.id, bot_activity['commands']['en'][message.text])
 
 
 @bot.message_handler(commands=['lang'])
 def handle_start_help(message):
     logger.bot_logger.info("%s: %s" % (message.chat, message.text))
-    bot.send_message(message.chat.id, bot_activity['commands'][message.text])
+    bot.send_message(message.chat.id, bot_activity['commands']['en'][message.text])
 
 
 @bot.message_handler(content_types=['text'])
 def get_explanation(message):
     logger.bot_logger.info("%s: %s" % (message.chat, message.text))
-    if len(message.text.split()) > 1:
-        explanation = scrapper.search("+".join(message.text.split()))
-    else:
-        explanation = scrapper.search(message.text)
-
-    explanation = "" if explanation is None else explanation
-
+    explanation = engine.get(message.text)
     logger.bot_logger.info('Send to %s: %s...'
                            % (message.chat.id, explanation[:min(20, len(explanation))]))
-
-    if not explanation:
-        explanation = "There is no explanation for '{}' in Urban Dictionary."
-
-    bot.send_message(message.chat.id, explanation.strip().format(message.text))
+    bot.send_message(message.chat.id, explanation)
 
 
 bot.remove_webhook()

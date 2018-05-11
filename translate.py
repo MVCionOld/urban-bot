@@ -1,7 +1,6 @@
 import requests
 import requests.exceptions
 
-import config
 import logger
 
 
@@ -22,7 +21,7 @@ class TranslateException(Exception):
     }
 
     def __init__(self, status_code, *args, **kwargs):
-        message = self.error_codes.get(status_code)
+        message = TranslateException.error_codes.get(status_code)
         super(TranslateException, self).__init__(message, *args, **kwargs)
 
 
@@ -165,7 +164,3 @@ class Translate:
             raise TranslateException(status_code)
 
         return response
-
-
-if __name__ == '__main__':
-    pass
