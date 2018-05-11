@@ -40,7 +40,8 @@ def webhook():
 @bot.message_handler(commands=['start', 'help'])
 def handle_start_help(message):
     logger.bot_logger.info("%s: %s" % (message.chat, message.text))
-    bot.send_message(message.chat.id, bot_activity['commands'][db_manager.get_lang(message.chat.id)][message.text])
+    bot.send_message(message.chat.id,
+                     bot_activity['commands'][db_manager.get_lang(message.chat.id)][message.text])
 
 
 @bot.message_handler(commands=['statistics'])
