@@ -6,10 +6,10 @@ import telebot
 
 import config
 import logger
-import translator
+import translate
 import urban
 
-translator = translator.YandexTranslate(config.YANDEX_TRANSLATE_API)
+translator = translate.Translate(config.YANDEX_TRANSLATE_API)
 
 scrapper = urban.UrbanDictionaryScrapper()
 

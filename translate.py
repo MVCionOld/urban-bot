@@ -1,10 +1,11 @@
 import requests
 import requests.exceptions
 
+import config
 import logger
 
 
-class YandexTranslateException(Exception):
+class TranslateException(Exception):
     """
     Default YandexTranslate exception
     """
@@ -22,10 +23,10 @@ class YandexTranslateException(Exception):
 
     def __init__(self, status_code, *args, **kwargs):
         message = self.error_codes.get(status_code)
-        super(YandexTranslateException, self).__init__(message, *args, **kwargs)
+        super(TranslateException, self).__init__(message, *args, **kwargs)
 
 
-class YandexTranslate:
+class Translate:
     api_url = "https://translate.yandex.net/api/{version}/tr.json/{endpoint}"
     api_version = "v1.5"
     api_endpoints = {
@@ -36,19 +37,19 @@ class YandexTranslate:
 
     def __init__(self, key=None):
         """
-        >>> translate = YandexTranslate("YANDEX_TRANSLATE_API")
+        >>> translate = Translate("YANDEX_TRANSLATE_API")
         >>> len(translate.api_endpoints)
         3
         """
 
         if not key:
-            raise YandexTranslateException(401)
+            raise TranslateException(401)
         self.api_key = key
 
     def url(self, endpoint):
         """
         Returns full URL for specified API endpoint
-        >>> translate = YandexTranslate("YANDEX_TRANSLATE_API")
+        >>> translate = Translate("YANDEX_TRANSLATE_API")
         >>> translate.url("langs")
         'https://translate.yandex.net/api/v1.5/tr.json/getLangs'
         >>> translate.url("detect")
@@ -64,7 +65,7 @@ class YandexTranslate:
     def directions(self, proxies=None):
         """
         Returns list with translate directions
-        >>> translate = YandexTranslate("YANDEX_TRANSLATE_API")
+        >>> translate = Translate("YANDEX_TRANSLATE_API")
         >>> directions = translate.directions
         >>> len(directions) > 0
         True
@@ -73,22 +74,22 @@ class YandexTranslate:
         try:
             response = requests.get(self.url("langs"), params={"key": self.api_key}, proxies=proxies)
         except requests.exceptions.ConnectionError:
-            logger.translator_logger.error(YandexTranslateException(503))
-            raise YandexTranslateException(503)
+            logger.translator_logger.error(TranslateException(503))
+            raise TranslateException(503)
         else:
             response = response.json()
 
         status_code = response.get("code", 200)
         if status_code != 200:
             logger.translator_logger.exception(status_code)
-            raise YandexTranslateException(status_code)
+            raise TranslateException(status_code)
         return response.get("dirs")
 
     @property
     def langs(self):
         """
         Returns list with supported languages
-        >>> translate = YandexTranslate("YANDEX_TRANSLATE_API")
+        >>> translate = Translate("YANDEX_TRANSLATE_API")
         >>> languages = translate.langs
         >>> len(languages) > 0
         True
@@ -99,7 +100,7 @@ class YandexTranslate:
     def detect(self, text, proxies=None, format="plain"):
         """
         Specifies language of text
-        >>> translate = YandexTranslate("YANDEX_TRANSLATE_API")
+        >>> translate = Translate("YANDEX_TRANSLATE_API")
         >>> result = translate.detect(text="Hello world!")
         >>> result == "en"
         True
@@ -114,11 +115,11 @@ class YandexTranslate:
         try:
             response = requests.post(self.url("detect"), data=data, proxies=proxies)
         except ConnectionError:
-            logger.translator_logger.exception(YandexTranslateException(503))
-            raise YandexTranslateException(503)
+            logger.translator_logger.exception(TranslateException(503))
+            raise TranslateException(503)
         except ValueError:
             logger.translator_logger.error(response)
-            raise YandexTranslateException(response)
+            raise TranslateException(response)
         else:
             response = response.json()
 
@@ -126,16 +127,16 @@ class YandexTranslate:
         status_code = response.get("code", 200)
         if status_code != 200:
             logger.translator_logger.exception(status_code)
-            raise YandexTranslateException(status_code)
+            raise TranslateException(status_code)
         elif not language:
-            logger.translator_logger.exception(YandexTranslateException(501))
-            raise YandexTranslateException(501)
+            logger.translator_logger.exception(TranslateException(501))
+            raise TranslateException(501)
         return language
 
     def translate(self, text, lang, proxies=None, format="plain"):
         """
         Translates text to passed language
-        >>> translate = YandexTranslate("YANDEX_TRANSLATE_API")
+        >>> translate = Translate("YANDEX_TRANSLATE_API")
         >>> result = translate.translate(lang="ru", text="Hello, world!")
         >>> result["code"] == 200
         True
@@ -153,15 +154,15 @@ class YandexTranslate:
         try:
             response = requests.post(self.url("translate"), data=data, proxies=proxies)
         except ConnectionError:
-            logger.translator_logger.exception(YandexTranslateException(503))
-            raise YandexTranslateException(503)
+            logger.translator_logger.exception(TranslateException(503))
+            raise TranslateException(503)
         else:
             response = response.json()
 
         status_code = response.get("code", 200)
         if status_code != 200:
             logger.translator_logger.exception(status_code)
-            raise YandexTranslateException(status_code)
+            raise TranslateException(status_code)
 
         return response
 
