@@ -18,5 +18,9 @@
   "unknown": {
     "en": "There is no explanation for '{}' in Urban Dictionary.",
     "ru": "Толкование выражения '{}' не найдено в Urban Dictionary."
+  },
+  "vocabulary": {
+    "en": "English",
+    "ru": "Русский"
   }
 }
