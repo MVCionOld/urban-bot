@@ -55,7 +55,7 @@ def handle_statistics(message):
 def handle_lang(message):
     keyboard = telebot.types.InlineKeyboardMarkup()
     for language in ["English", "Русский"]:
-        keyboard.add(telebot.types.KeyboardButton(text=language, callback_data="TEST"))
+        keyboard.add(telebot.types.InlineKeyboardButton(text=language, url="https://ya.ru"))
     logger.bot_logger.info("%s: %s" % (message.chat, message.text))
     bot.send_message(message.chat.id,
                      bot_activity['commands'][db_manager.get_lang(message.chat.id)][message.text],
