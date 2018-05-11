@@ -5,6 +5,7 @@ import flask
 import telebot
 
 import config
+import db_manager
 import logger
 import search_engine
 
@@ -12,7 +13,7 @@ engine = search_engine.SearchEngine()
 
 bot = telebot.TeleBot(config.URBAN_BOT_TOKEN, threaded=True)
 
-with open('botCommands.json') as bot_activity_file:
+with open('bot_commands.json') as bot_activity_file:
     bot_activity = json.loads(bot_activity_file.read())
 
 app = flask.Flask(__name__)
@@ -39,28 +40,31 @@ def webhook():
 @bot.message_handler(commands=['start', 'help'])
 def handle_start_help(message):
     logger.bot_logger.info("%s: %s" % (message.chat, message.text))
-    bot.send_message(message.chat.id, bot_activity['commands']['en'][message.text])
+    bot.send_message(message.chat.id, bot_activity['commands'][db_manager.get_lang(message.chat.id)][message.text])
 
 
 @bot.message_handler(commands=['statistics'])
 def handle_statistics(message):
     logger.bot_logger.info("%s: %s" % (message.chat, message.text))
-    bot.send_message(message.chat.id, bot_activity['commands']['en'][message.text])
+    bot.send_message(message.chat.id,
+                     bot_activity['commands'][db_manager.get_lang(message.chat.id)][message.text])
 
 
 @bot.message_handler(commands=['lang'])
 def handle_lang(message):
     logger.bot_logger.info("%s: %s" % (message.chat, message.text))
-    bot.send_message(message.chat.id, bot_activity['commands']['en'][message.text])
+    bot.send_message(message.chat.id,
+                     bot_activity['commands'][db_manager.get_lang(message.chat.id)][message.text])
 
 
 @bot.message_handler(content_types=['text'])
 def get_explanation(message):
     logger.bot_logger.info("%s: %s" % (message.chat, message.text))
-    explanation = engine.search(message.text)
+    explanation = engine.search(message.text, lang=db_manager.get_lang(message.chat.id))
     logger.bot_logger.info('Send to %s: %s...'
-                           % (message.chat.id, explanation[:min(20, len(explanation))]))
+                           % (message.chat.id, explanation[:min(140, len(explanation))]))
     bot.send_message(message.chat.id, explanation)
+    print(message.chat.id, explanation)
 
 
 bot.remove_webhook()
