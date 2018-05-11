@@ -13,12 +13,11 @@ class SearchEngine:
         with open('botCommands.json') as bot_activity_file:
             self.bot_activity = json.loads(bot_activity_file.read())
 
-    def search(self, text, lang="fr"):
+    def search(self, text, lang="ru"):
         if self.translator.detect(text) != "en":
             translated_text = self.translator.translate(text, lang="en")['text'][0]
         else:
             translated_text = text
-        print(translated_text)
         if len(translated_text.split()) > 1:
             explanation = self.scrapper.search("+".join(translated_text.split()))
         else:
