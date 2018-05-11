@@ -26,7 +26,7 @@ def index():
 
 @app.route(config.WEBHOOK_URL_PATH, methods=['POST'])
 def webhook():
-    if flask.request.headers.search('content-type') == 'application/json':
+    if flask.request.headers.get('content-type') == 'application/json':
         json_string = flask.request.get_data().decode('utf-8')
         logger.server_logger.info(json_string)
         update = telebot.types.Update.de_json(json_string)
@@ -44,13 +44,13 @@ def handle_start_help(message):
 
 
 @bot.message_handler(commands=['statistics'])
-def handle_start_help(message):
+def handle_statistics(message):
     logger.bot_logger.info("%s: %s" % (message.chat, message.text))
     bot.send_message(message.chat.id, bot_activity['commands']['en'][message.text])
 
 
 @bot.message_handler(commands=['lang'])
-def handle_start_help(message):
+def handle_lang(message):
     logger.bot_logger.info("%s: %s" % (message.chat, message.text))
     bot.send_message(message.chat.id, bot_activity['commands']['en'][message.text])
 
