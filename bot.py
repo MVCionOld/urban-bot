@@ -60,9 +60,8 @@ def get_explanation(message):
     explanation = engine.search(message.text)
     logger.bot_logger.info('Send to %s: %s...'
                            % (message.chat.id, explanation[:min(140, len(explanation))]))
-    print(explanation)
     bot.send_message(message.chat.id, explanation)
-    print(explanation)
+    print(message.chat.id, explanation)
 
 
 bot.remove_webhook()
