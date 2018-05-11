@@ -59,7 +59,7 @@ def get_explanation(message):
     logger.bot_logger.info("%s: %s" % (message.chat, message.text))
     explanation = engine.search(message.text)
     logger.bot_logger.info('Send to %s: %s...'
-                           % (message.chat.id, explanation[:min(20, len(explanation))]))
+                           % (message.chat.id, explanation[:min(140, len(explanation))]))
     print(explanation)
     bot.send_message(message.chat.id, explanation)
     print(explanation)
