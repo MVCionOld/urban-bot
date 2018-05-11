@@ -58,7 +58,8 @@ def handle_lang(message):
         keyboard.add(telebot.types.InlineKeyboardButton(text=language))
     logger.bot_logger.info("%s: %s" % (message.chat, message.text))
     bot.send_message(message.chat.id,
-                     bot_activity['commands'][db_manager.get_lang(message.chat.id)][message.text])
+                     bot_activity['commands'][db_manager.get_lang(message.chat.id)][message.text],
+                     inline_markup=keyboard)
 
 
 @bot.message_handler(content_types=['text'])
