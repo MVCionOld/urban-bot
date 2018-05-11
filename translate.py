@@ -164,10 +164,3 @@ class Translate:
             raise TranslateException(status_code)
 
         return response
-
-
-if __name__ == '__main__':
-    import config
-
-    translator = Translate(config.YANDEX_TRANSLATE_API)
-    print(translator.translate('I love my girlfriend', lang="ru"))
