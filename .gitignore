@@ -1,6 +1,6 @@
 __pycache__/
 .gitignore
 scrapper.log
-urban.log
+bot.log
 server.log
 translate.log
