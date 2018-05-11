@@ -18,6 +18,7 @@ class SearchEngine:
             translated_text = self.translator.translate(text, lang="en")['text'][0]
         else:
             translated_text = text
+        print(translated_text)
         if len(translated_text.split()) > 1:
             explanation = self.scrapper.search("+".join(translated_text.split()))
         else:
