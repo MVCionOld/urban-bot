@@ -65,10 +65,9 @@ def handle_lang(message):
 @bot.callback_query_handler(func=lambda call: True)
 def callback_inline(call):
     db_manager.set_lang(call.message.chat.id, call.data)
-    # if call.data == 'en':
-    #    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="English")
-    # elif call.data == 'ru':
-    #    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Русский")
+    bot.edit_message_text(chat_id=call.message.chat.id,
+                          message_id=call.message.message_id,
+                          text=bot_activity["commands"][call.data]["lang_callback"])
 
 
 @bot.message_handler(content_types=['text'])
