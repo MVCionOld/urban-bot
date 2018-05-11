@@ -57,6 +57,19 @@ def add_description(request_txt, description_txt):
     connection.commit()
 
 
+def update_cnt(request_txt):
+    query = """
+        UPDATE 
+          REQUEST
+        SET
+          frequency_cnt = frequency_cnt + 1
+        WHERE
+          urban_request_txt = '{0}';
+    """.format(request_txt.lower(),)
+    cursor.execute(query)
+    connection.commit()
+
+
 def get_description(request_txt):
     query = """
         SELECT 
@@ -66,22 +79,22 @@ def get_description(request_txt):
         WHERE
           urban_request_txt = '{0}';
     """.format(request_txt.lower())
-    response = cursor.execute(query)
-    return response
+    response = cursor.execute(query).fetchone()
+    if response is None:
+        return None
+    else:
+        update_cnt(request_txt)
+        return response[0]
 
 
 def get_top(limit):
     query = """
         SELECT 
-          REQUEST.urban_request_txt
+          urban_request_txt
         FROM 
           REQUEST
         ORDER BY
-          REQUEST.frequency_cnt DESC
+          frequency_cnt DESC
         LIMIT {0};
     """.format(limit,)
     return cursor.execute(query).fetchall()
-
-
-if __name__ == '__main__':
-    print(get_lang(1032567))
