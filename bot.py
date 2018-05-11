@@ -54,12 +54,20 @@ def handle_statistics(message):
 @bot.message_handler(commands=['lang'])
 def handle_lang(message):
     keyboard = telebot.types.InlineKeyboardMarkup()
-    for language in ["English", "Русский"]:
-        keyboard.add(telebot.types.InlineKeyboardButton(text=language, url="https://ya.ru"))
+    keyboard.add(telebot.types.InlineKeyboardButton(text="English", callback_data='en'))
+    keyboard.add(telebot.types.InlineKeyboardButton(text="Русский", callback_data='ru'))
     logger.bot_logger.info("%s: %s" % (message.chat, message.text))
     bot.send_message(message.chat.id,
                      bot_activity['commands'][db_manager.get_lang(message.chat.id)][message.text],
                      reply_markup=keyboard)
+
+
+@bot.callback_query_handler(func=lambda call: True)
+def callback_inline(call):
+    if call.data == 'en':
+        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="English")
+    elif call.data == 'ru':
+        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Русский")
 
 
 @bot.message_handler(content_types=['text'])
