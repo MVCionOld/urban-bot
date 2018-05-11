@@ -40,7 +40,8 @@ def webhook():
 @bot.message_handler(commands=['start', 'help'])
 def handle_start_help(message):
     logger.bot_logger.info("%s: %s" % (message.chat, message.text))
-    bot.send_message(message.chat.id, bot_activity['commands'][db_manager.get_lang(message.chat.id)][message.text])
+    bot.send_message(message.chat.id,
+                     bot_activity['commands'][db_manager.get_lang(message.chat.id)][message.text])
 
 
 @bot.message_handler(commands=['statistics'])
@@ -52,9 +53,21 @@ def handle_statistics(message):
 
 @bot.message_handler(commands=['lang'])
 def handle_lang(message):
+    keyboard = telebot.types.InlineKeyboardMarkup()
+    keyboard.add(telebot.types.InlineKeyboardButton(text="English", callback_data='en'))
+    keyboard.add(telebot.types.InlineKeyboardButton(text="Русский", callback_data='ru'))
     logger.bot_logger.info("%s: %s" % (message.chat, message.text))
     bot.send_message(message.chat.id,
-                     bot_activity['commands'][db_manager.get_lang(message.chat.id)][message.text])
+                     bot_activity['commands'][db_manager.get_lang(message.chat.id)][message.text],
+                     reply_markup=keyboard)
+
+
+@bot.callback_query_handler(func=lambda call: True)
+def callback_inline(call):
+    db_manager.set_lang(call.message.chat.id, call.data)
+    bot.edit_message_text(chat_id=call.message.chat.id,
+                          message_id=call.message.message_id,
+                          text=bot_activity["commands"][call.data]["lang_callback"])
 
 
 @bot.message_handler(content_types=['text'])
