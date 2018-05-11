@@ -14,3 +14,5 @@ WEBHOOK_SSL_PRIV = '/root/webhook_pkey.pem'  # path to private key
 
 WEBHOOK_URL_BASE = "https://%s:%s" % (WEBHOOK_HOST, WEBHOOK_PORT)
 WEBHOOK_URL_PATH = "/{}/".format(URBAN_BOT_TOKEN)
+
+DB_NAME = ''

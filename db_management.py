@@ -1,3 +1,6 @@
-import sqlalchemy
+import sqlite3
 
-print("Version SQLAlchemy: %s" % sqlalchemy.__version__)
+import config
+
+connection = sqlite3.Connection(config.DB_NAME)
+
