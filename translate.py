@@ -78,11 +78,11 @@ class Translate:
         else:
             response = response.json()
 
-        status_code = response.get("code", 200)
+        status_code = response.search("code", 200)
         if status_code != 200:
             logger.translate_logger.exception(status_code)
             raise TranslateException(status_code)
-        return response.get("dirs")
+        return response.search("dirs")
 
     @property
     def langs(self):
@@ -122,8 +122,8 @@ class Translate:
         else:
             response = response.json()
 
-        language = response.get("lang", None)
-        status_code = response.get("code", 200)
+        language = response.search("lang", None)
+        status_code = response.search("code", 200)
         if status_code != 200:
             logger.translate_logger.exception(status_code)
             raise TranslateException(status_code)
@@ -158,7 +158,7 @@ class Translate:
         else:
             response = response.json()
 
-        status_code = response.get("code", 200)
+        status_code = response.search("code", 200)
         if status_code != 200:
             logger.translate_logger.exception(status_code)
             raise TranslateException(status_code)

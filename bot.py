@@ -26,7 +26,7 @@ def index():
 
 @app.route(config.WEBHOOK_URL_PATH, methods=['POST'])
 def webhook():
-    if flask.request.headers.get('content-type') == 'application/json':
+    if flask.request.headers.search('content-type') == 'application/json':
         json_string = flask.request.get_data().decode('utf-8')
         logger.server_logger.info(json_string)
         update = telebot.types.Update.de_json(json_string)
@@ -58,7 +58,7 @@ def handle_start_help(message):
 @bot.message_handler(content_types=['text'])
 def get_explanation(message):
     logger.bot_logger.info("%s: %s" % (message.chat, message.text))
-    explanation = engine.get(message.text)
+    explanation = engine.search(message.text)
     logger.bot_logger.info('Send to %s: %s...'
                            % (message.chat.id, explanation[:min(20, len(explanation))]))
     bot.send_message(message.chat.id, explanation)
