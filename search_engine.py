@@ -28,6 +28,6 @@ class SearchEngine:
         if not explanation:
             explanation = self.bot_activity["unknown"][lang]
         elif lang != "en":
-            explanation = self.translator.translate(text, lang=lang)['text'][0]
+            explanation = self.translator.translate(explanation, lang=lang)['text'][0]
 
         return explanation.strip().format(text)
