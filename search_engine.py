@@ -10,10 +10,10 @@ class SearchEngine:
     def __init__(self):
         self.translator = translate.Translate(config.YANDEX_TRANSLATE_API)
         self.scrapper = scrappers.UrbanDictionaryScrapper()
-        with open('botCommands.json') as bot_activity_file:
+        with open('bot_commands.json') as bot_activity_file:
             self.bot_activity = json.loads(bot_activity_file.read())
 
-    def search(self, text, lang="ru"):
+    def search(self, text, lang="en"):
         if self.translator.detect(text) != "en":
             translated_text = self.translator.translate(text, lang="en")['text'][0]
         else:

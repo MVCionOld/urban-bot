@@ -13,7 +13,7 @@ engine = search_engine.SearchEngine()
 
 bot = telebot.TeleBot(config.URBAN_BOT_TOKEN, threaded=True)
 
-with open('botCommands.json') as bot_activity_file:
+with open('bot_commands.json') as bot_activity_file:
     bot_activity = json.loads(bot_activity_file.read())
 
 app = flask.Flask(__name__)
@@ -46,13 +46,15 @@ def handle_start_help(message):
 @bot.message_handler(commands=['statistics'])
 def handle_statistics(message):
     logger.bot_logger.info("%s: %s" % (message.chat, message.text))
-    bot.send_message(message.chat.id, bot_activity['commands'][db_manager.get_lang(message.chat.id)][message.text])
+    bot.send_message(message.chat.id,
+                     bot_activity['commands'][db_manager.get_lang(message.chat.id)][message.text])
 
 
 @bot.message_handler(commands=['lang'])
 def handle_lang(message):
     logger.bot_logger.info("%s: %s" % (message.chat, message.text))
-    bot.send_message(message.chat.id, bot_activity['commands'][db_manager.get_lang(message.chat.id)][message.text])
+    bot.send_message(message.chat.id,
+                     bot_activity['commands'][db_manager.get_lang(message.chat.id)][message.text])
 
 
 @bot.message_handler(content_types=['text'])
