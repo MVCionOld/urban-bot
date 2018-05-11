@@ -9,7 +9,7 @@ class TranslateException(Exception):
     Default YandexTranslate exception
     """
 
-    error_codes = {
+    ERROR_CODES = {
         401: "ERR_KEY_INVALID",
         402: "ERR_KEY_BLOCKED",
         403: "ERR_DAILY_REQ_LIMIT_EXCEEDED",
@@ -21,7 +21,7 @@ class TranslateException(Exception):
     }
 
     def __init__(self, status_code, *args, **kwargs):
-        message = TranslateException.error_codes.get(status_code)
+        message = TranslateException.ERROR_CODES.get(status_code)
         super(TranslateException, self).__init__(message, *args, **kwargs)
 
 
