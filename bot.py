@@ -17,15 +17,6 @@ with open('botCommands.json') as bot_activity_file:
 
 app = flask.Flask(__name__)
 
-bot.remove_webhook()
-time.sleep(1)
-bot.set_webhook(url=config.WEBHOOK_URL_BASE + config.WEBHOOK_URL_PATH,
-                certificate=open(config.WEBHOOK_SSL_CERT, 'r'))
-app.run(host=config.WEBHOOK_LISTEN,
-        port=config.WEBHOOK_PORT,
-        ssl_context=(config.WEBHOOK_SSL_CERT, config.WEBHOOK_SSL_PRIV),
-        debug=config.DEBUG)
-
 
 @app.route('/', methods=['GET', 'HEAD'])
 def index():
@@ -70,3 +61,14 @@ def get_explanation(message):
     logger.bot_logger.info('Send to %s: %s...'
                            % (message.chat.id, explanation[:min(20, len(explanation))]))
     bot.send_message(message.chat.id, explanation)
+
+
+bot.remove_webhook()
+time.sleep(1)
+bot.set_webhook(url=config.WEBHOOK_URL_BASE + config.WEBHOOK_URL_PATH,
+                certificate=open(config.WEBHOOK_SSL_CERT, 'r'))
+
+app.run(host=config.WEBHOOK_LISTEN,
+        port=config.WEBHOOK_PORT,
+        ssl_context=(config.WEBHOOK_SSL_CERT, config.WEBHOOK_SSL_PRIV),
+        debug=config.DEBUG)

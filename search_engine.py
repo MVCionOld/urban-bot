@@ -13,7 +13,7 @@ class SearchEngine:
         with open('botCommands.json') as bot_activity_file:
             self.bot_activity = json.loads(bot_activity_file.read())
 
-    def search(self, text, lang="en"):
+    def search(self, text, lang="fr"):
         if self.translator.detect(text) != "en":
             translated_text = self.translator.translate(text, lang="en")['text'][0]
         else:
