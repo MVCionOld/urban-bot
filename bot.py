@@ -7,11 +7,11 @@ import telebot
 import config
 import logger
 import translate
-import urban
+import scrappers
 
 translator = translate.Translate(config.YANDEX_TRANSLATE_API)
 
-scrapper = urban.UrbanDictionaryScrapper()
+scrapper = scrappers.UrbanDictionaryScrapper()
 
 bot = telebot.TeleBot(config.URBAN_BOT_TOKEN, threaded=True)
 

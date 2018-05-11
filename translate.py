@@ -74,14 +74,14 @@ class Translate:
         try:
             response = requests.get(self.url("langs"), params={"key": self.api_key}, proxies=proxies)
         except requests.exceptions.ConnectionError:
-            logger.translator_logger.error(TranslateException(503))
+            logger.translate_logger.error(TranslateException(503))
             raise TranslateException(503)
         else:
             response = response.json()
 
         status_code = response.get("code", 200)
         if status_code != 200:
-            logger.translator_logger.exception(status_code)
+            logger.translate_logger.exception(status_code)
             raise TranslateException(status_code)
         return response.get("dirs")
 
@@ -115,10 +115,10 @@ class Translate:
         try:
             response = requests.post(self.url("detect"), data=data, proxies=proxies)
         except ConnectionError:
-            logger.translator_logger.exception(TranslateException(503))
+            logger.translate_logger.exception(TranslateException(503))
             raise TranslateException(503)
         except ValueError:
-            logger.translator_logger.error(response)
+            logger.translate_logger.error(response)
             raise TranslateException(response)
         else:
             response = response.json()
@@ -126,10 +126,10 @@ class Translate:
         language = response.get("lang", None)
         status_code = response.get("code", 200)
         if status_code != 200:
-            logger.translator_logger.exception(status_code)
+            logger.translate_logger.exception(status_code)
             raise TranslateException(status_code)
         elif not language:
-            logger.translator_logger.exception(TranslateException(501))
+            logger.translate_logger.exception(TranslateException(501))
             raise TranslateException(501)
         return language
 
@@ -154,14 +154,14 @@ class Translate:
         try:
             response = requests.post(self.url("translate"), data=data, proxies=proxies)
         except ConnectionError:
-            logger.translator_logger.exception(TranslateException(503))
+            logger.translate_logger.exception(TranslateException(503))
             raise TranslateException(503)
         else:
             response = response.json()
 
         status_code = response.get("code", 200)
         if status_code != 200:
-            logger.translator_logger.exception(status_code)
+            logger.translate_logger.exception(status_code)
             raise TranslateException(status_code)
 
         return response
