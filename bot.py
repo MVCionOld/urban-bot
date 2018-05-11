@@ -54,8 +54,8 @@ def handle_statistics(message):
 @bot.message_handler(commands=['lang'])
 def handle_lang(message):
     keyboard = telebot.types.InlineKeyboardMarkup()
-    keyboard.add(telebot.types.InlineKeyboardButton(text="English", callback_data='en'))
-    keyboard.add(telebot.types.InlineKeyboardButton(text="Русский", callback_data='ru'))
+    for lang_alias, language in bot_activity["vocabulary"].items():
+        keyboard.add(telebot.types.InlineKeyboardButton(text=language, callback_data=lang_alias))
     logger.bot_logger.info("%s: %s" % (message.chat, message.text))
     bot.send_message(message.chat.id,
                      bot_activity['commands'][db_manager.get_lang(message.chat.id)][message.text],
@@ -77,7 +77,6 @@ def get_explanation(message):
     logger.bot_logger.info('Send to %s: %s...'
                            % (message.chat.id, explanation[:min(140, len(explanation))]))
     bot.send_message(message.chat.id, explanation)
-    print(message.chat.id, explanation)
 
 
 bot.remove_webhook()
