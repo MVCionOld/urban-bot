@@ -15,7 +15,7 @@ class SearchEngine:
 
     def search(self, text, lang="ru"):
         if self.translator.detect(text) != "en":
-            translated_text = self.translator.translate(text, lang="en")['text']
+            translated_text = self.translator.translate(text, lang="en")['text'][0]
         else:
             translated_text = text
         if len(translated_text.split()) > 1:
@@ -27,6 +27,6 @@ class SearchEngine:
         if not explanation:
             explanation = self.bot_activity["unknown"][lang]
         elif lang != "en":
-            explanation = self.translator.translate(text, lang=lang)['text']
+            explanation = self.translator.translate(text, lang=lang)['text'][0]
 
         return explanation.strip().format(text)
