@@ -53,9 +53,13 @@ def handle_statistics(message):
 
 @bot.message_handler(commands=['lang'])
 def handle_lang(message):
+    keyboard = telebot.types.InlineKeyboardMarkup()
+    for language in ["English", "Русский"]:
+        keyboard.add(telebot.types.InlineKeyboardButton(text=language))
     logger.bot_logger.info("%s: %s" % (message.chat, message.text))
     bot.send_message(message.chat.id,
-                     bot_activity['commands'][db_manager.get_lang(message.chat.id)][message.text])
+                     bot_activity['commands'][db_manager.get_lang(message.chat.id)][message.text],
+                     reply_markup=keyboard)
 
 
 @bot.message_handler(content_types=['text'])
