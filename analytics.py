@@ -45,6 +45,7 @@ def language_frequency(chat_id):
         matplotlib.pyplot.title("", fontsize=extended_cnt * 5)
         pic_name = 'tmp/lang_{}.png'.format(str(datetime.datetime.now()) + str(chat_id)).replace(' ', '')
         matplotlib.pyplot.savefig(pic_name)
+        matplotlib.pyplot.clf()
         return pic_name
 
 
@@ -62,4 +63,5 @@ def request_frequency(chat_id):
     matplotlib.pyplot.title("", fontsize=extended_cnt)
     pic_name = 'tmp/req_{}.png'.format(str(datetime.datetime.now()) + str(chat_id))
     matplotlib.pyplot.savefig(pic_name)
+    matplotlib.pyplot.clf()
     return pic_name
