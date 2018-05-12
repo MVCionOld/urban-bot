@@ -4,11 +4,12 @@ import time
 import flask
 import telebot
 
+import analytics
 import config
 import db_manager
 import logger
 import search_engine
-import analytics
+
 
 engine = search_engine.SearchEngine()
 
