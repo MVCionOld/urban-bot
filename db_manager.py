@@ -73,7 +73,10 @@ def update_cnt(request_txt):
             WHERE
               urban_request_txt = \"{0}\";
         '''.format(request_txt.lower(),)
-        cursor.execute(query)
+        try:
+            cursor.execute(query)
+        except sqlite3.IntegrityError:
+            pass
         connection.commit()
 
 
