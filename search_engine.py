@@ -1,6 +1,7 @@
 import json
 
 import config
+import db_manager
 import scrappers
 import translate
 
@@ -14,15 +15,23 @@ class SearchEngine:
             self.bot_activity = json.loads(bot_activity_file.read())
 
     def search(self, text, lang="en"):
+
         if self.translator.detect(text) != "en":
             translated_text = self.translator.translate(text, lang="en")['text'][0]
         else:
             translated_text = text
-        if len(translated_text.split()) > 1:
-            explanation = self.scrapper.search("+".join(translated_text.split()))
+
+        db_response = db_manager.get_description(translated_text)
+
+        if db_response is None:
+            if len(translated_text.split()) > 1:
+                explanation = self.scrapper.search("+".join(translated_text.split()))
+            else:
+                explanation = self.scrapper.search(translated_text)
+            explanation = "" if explanation is None else explanation
+            db_manager.add_description(translated_text, explanation)
         else:
-            explanation = self.scrapper.search(translated_text)
-        explanation = "" if explanation is None else explanation
+            explanation = db_response
 
         if not explanation:
             explanation = self.bot_activity["unknown"][lang]
