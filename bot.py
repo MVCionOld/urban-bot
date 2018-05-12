@@ -54,11 +54,11 @@ def handle_statistics(message):
 @bot.message_handler(commands=['top'])
 def get_top(message):
     logger.bot_logger.info("%s: %s" % (message.chat, message.text))
-    if message.chat.split(' ') != 2:
+    if message.text.split(' ') != 2:
         bot.send_message(message.chat.id,
                          bot_activity['commands'][db_manager.get_lang(message.chat.id)]["top_error"])
     else:
-        _, limit = message.chat.split(' ')
+        _, limit = message.text.split(' ')
         try:
             limit = int(limit)
             for i, term in enumerate(db_manager.get_top(limit)):
