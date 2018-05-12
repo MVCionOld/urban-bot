@@ -42,7 +42,7 @@ def set_lang(chat_id, lang_txt):
             UPDATE
               CHAT_LANG
             SET
-              lang_txt = "{1}"
+              lang_txt = \"{1}\"
             WHERE
               chat_id = {0};
         '''.format(chat_id, lang_txt,)
@@ -57,7 +57,7 @@ def add_description(request_txt, description_txt):
             INSERT INTO REQUEST 
               (urban_request_txt, description_txt)
             VALUES
-              ("{0}", "{1}"); 
+              (\"{0}\", \"{1}\"); 
         '''.format(request_txt.lower(), description_txt))
         connection.commit()
 
@@ -71,7 +71,7 @@ def update_cnt(request_txt):
             SET
               frequency_cnt = frequency_cnt + 1
             WHERE
-              urban_request_txt = "{0}";
+              urban_request_txt = \"{0}\";
         '''.format(request_txt.lower(),)
         cursor.execute(query)
         connection.commit()
@@ -86,7 +86,7 @@ def get_description(request_txt):
             FROM 
               REQUEST
             WHERE
-              urban_request_txt = "{0}";
+              urban_request_txt = \"{0}\";
         '''.format(request_txt.lower())
         response = cursor.execute(query).fetchone()
         if response is None:
