@@ -4,6 +4,7 @@ import tkinter
 
 import matplotlib
 matplotlib.use('Agg')
+import matplotlib.pyplot
 import numpy
 
 import config
