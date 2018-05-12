@@ -8,7 +8,7 @@
       "top_error": "Command 'top' should be like: '/top N', where N - number!",
       "/statistics": "(Current statistic of all users)",
       "statistics":{
-        "users": "Percent of users who use english interface:",
+        "users": "Percent of users who use certain language of interface:",
         "terms": "Infographic of the most popular requests:"
       },
       "/help": "Type certain word or words combination and get urban explanation, bro."
@@ -21,7 +21,7 @@
       "top_error": "Команда 'top' должна быть: '/top N', где N - целое число!",
       "/statistics": "(Текущая статистика всех пользователей)",
       "statistics":{
-        "users": "Процент пользователей, использующих русский интерфейс:",
+        "users": "Процент пользователей, использующих определенный язык интерфейсa:",
         "terms": "Инфографика самых популярных запросов:"
       },
       "/help": "Напиши слово или словосочетание и тебе пояснят за базар."
