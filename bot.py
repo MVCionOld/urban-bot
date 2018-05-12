@@ -61,7 +61,7 @@ def get_top(message):
         _, limit = message.text.split(' ')
         try:
             limit = int(limit)
-            for response in search_engine.get_top(limit, lang):
+            for response in engine.get_top(limit, lang):
                 bot.send_message(message.chat.id, response)
         except ValueError:
             bot.send_message(message.chat.id, bot_activity['commands'][lang]["top_error"])
