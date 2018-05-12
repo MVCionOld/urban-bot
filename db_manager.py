@@ -1,6 +1,7 @@
 import sqlite3
 
 import config
+import logger
 
 
 def add_id(chat_id):
@@ -53,12 +54,15 @@ def set_lang(chat_id, lang_txt):
 def add_description(request_txt, description_txt):
     with sqlite3.Connection(config.DB_NAME) as connection:
         cursor = connection.cursor()
-        cursor.execute('''
-            INSERT INTO REQUEST 
-              (urban_request_txt, description_txt)
-            VALUES
-              (\"{0}\", \"{1}\"); 
-        '''.format(request_txt.lower(), description_txt))
+        try:
+            cursor.execute('''
+                INSERT INTO REQUEST 
+                  (urban_request_txt, description_txt)
+                VALUES
+                  (\"{0}\", \"{1}\"); 
+            '''.format(request_txt.lower(), description_txt))
+        except sqlite3.IntegrityError:
+            logger.error(sqlite3.IntegrityError.with_traceback())
         connection.commit()
 
 
@@ -73,10 +77,7 @@ def update_cnt(request_txt):
             WHERE
               urban_request_txt = \"{0}\";
         '''.format(request_txt.lower(),)
-        try:
-            cursor.execute(query)
-        except sqlite3.IntegrityError:
-            pass
+        cursor.execute(query)
         connection.commit()
 
 
