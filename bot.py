@@ -56,13 +56,13 @@ def handle_statistics(message):
     with open(lang_fname, 'rb') as lang_bar_chart:
         bot.send_message(message.chat.id, bot_activity['commands'][lang]["statistics"]["users"])
         bot.send_photo(message.chat.id, lang_bar_chart)
-    os.remove(lang_fname)
+    'os.remove(lang_fname)'
 
     req_fname = analytics.request_frequency(message.chat.id)
     with open(req_fname, 'rb') as req_bar_chart:
         bot.send_message(message.chat.id, bot_activity['commands'][lang]["statistics"]["terms"])
         bot.send_photo(message.chat.id, req_bar_chart)
-    os.remove(req_fname)
+    'os.remove(req_fname)'
 
 
 @bot.message_handler(commands=['top'])
