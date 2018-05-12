@@ -1,4 +1,5 @@
 import json
+import os
 import time
 
 import flask
@@ -53,6 +54,7 @@ def handle_statistics(message):
     bot.send_message(message.chat.id, bot_activity['commands'][lang][message.text])
     with open(analytics.language_frequency(message.chat.id), 'rb') as bar_chart:
         bot.send_photo(message.chat.id, bar_chart)
+    os.remove(name)
 
 
 @bot.message_handler(commands=['top'])
