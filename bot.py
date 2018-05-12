@@ -51,13 +51,11 @@ def handle_statistics(message):
     logger.bot_logger.info("%s: %s" % (message.chat, message.text))
     lang = db_manager.get_lang(message.chat.id)
     bot.send_message(message.chat.id, bot_activity['commands'][lang][message.text])
-
     lang_fname = analytics.language_frequency(message.chat.id)
     with open(lang_fname, 'rb') as lang_bar_chart:
         bot.send_message(message.chat.id, bot_activity['commands'][lang]["statistics"]["users"])
         bot.send_photo(message.chat.id, lang_bar_chart)
     os.remove(lang_fname)
-
     req_fname = analytics.request_frequency(message.chat.id)
     with open(req_fname, 'rb') as req_bar_chart:
         bot.send_message(message.chat.id, bot_activity['commands'][lang]["statistics"]["terms"])
