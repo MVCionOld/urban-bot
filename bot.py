@@ -4,6 +4,7 @@ import time
 import flask
 import telebot
 
+import analytics
 import config
 import db_manager
 import logger
