@@ -25,7 +25,7 @@ def index():
 
 
 @app.route(config.WEBHOOK_URL_PATH, methods=['POST'])
-def webhook():
+def web_hook():
     if flask.request.headers.get('content-type') == 'application/json':
         json_string = flask.request.get_data().decode('utf-8')
         logger.server_logger.info(json_string)
@@ -40,15 +40,31 @@ def webhook():
 @bot.message_handler(commands=['start', 'help'])
 def handle_start_help(message):
     logger.bot_logger.info("%s: %s" % (message.chat, message.text))
-    bot.send_message(message.chat.id,
-                     bot_activity['commands'][db_manager.get_lang(message.chat.id)][message.text])
+    lang = db_manager.get_lang(message.chat.id)
+    bot.send_message(message.chat.id, bot_activity['commands'][lang][message.text])
 
 
 @bot.message_handler(commands=['statistics'])
 def handle_statistics(message):
     logger.bot_logger.info("%s: %s" % (message.chat, message.text))
-    bot.send_message(message.chat.id,
-                     bot_activity['commands'][db_manager.get_lang(message.chat.id)][message.text])
+    lang = db_manager.get_lang(message.chat.id)
+    bot.send_message(message.chat.id, bot_activity['commands'][lang][message.text])
+
+
+@bot.message_handler(commands=['top'])
+def get_top(message):
+    logger.bot_logger.info("%s: %s" % (message.chat, message.text))
+    lang = db_manager.get_lang(message.chat.id)
+    if len(message.text.split(' ')) != 2:
+        bot.send_message(message.chat.id, bot_activity['commands'][lang]["top_error"])
+    else:
+        _, limit = message.text.split(' ')
+        try:
+            limit = int(limit)
+            for response in db_manager.get_top(limit):
+                bot.send_message(message.chat.id, response)
+        except ValueError:
+            bot.send_message(message.chat.id, bot_activity['commands'][lang]["top_error"])
 
 
 @bot.message_handler(commands=['lang'])
@@ -57,8 +73,9 @@ def handle_lang(message):
     for lang_alias, language in bot_activity["vocabulary"].items():
         keyboard.add(telebot.types.InlineKeyboardButton(text=language, callback_data=lang_alias))
     logger.bot_logger.info("%s: %s" % (message.chat, message.text))
+    lang = db_manager.get_lang(message.chat.id)
     bot.send_message(message.chat.id,
-                     bot_activity['commands'][db_manager.get_lang(message.chat.id)][message.text],
+                     bot_activity['commands'][lang][message.text],
                      reply_markup=keyboard)
 
 

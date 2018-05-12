@@ -11,7 +11,8 @@ class UrbanDictionaryScrapper:
 
     HTML_CODE_TABLE = {
         "&apos;": "'",
-        '&quot;': '"',
+        '&quot;': "'",
+        '"': "'",
         '&amp;': '&',
         '&laquo;': '<<',
         '&raquo;': '>>',
