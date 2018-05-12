@@ -118,4 +118,4 @@ def get_top(limit):
             LIMIT {0};
         """.format(min(100, limit),)
         for i, term in enumerate(cursor.execute(query).fetchall()):
-            yield "\t{0}.\n{1}".format(i + 1, term[0])
+            yield (i + 1, term[0])

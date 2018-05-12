@@ -39,3 +39,7 @@ class SearchEngine:
             explanation = self.translator.translate(explanation, lang=lang)['text'][0]
 
         return explanation.strip().format(text)
+
+    def get_top(self, limit, lang="en"):
+        for position, explanation in db_manager.get_top(limit):
+            yield "{0}.\n{1}".format(position, self.translator.translate(explanation, lang)['text'][0])
