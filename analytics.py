@@ -63,6 +63,3 @@ def request_frequency(chat_id):
     pic_name = 'tmp/req_{}.png'.format(str(datetime.datetime.now()) + str(chat_id))
     matplotlib.pyplot.savefig(pic_name)
     return pic_name
-
-
-request_frequency(0)
