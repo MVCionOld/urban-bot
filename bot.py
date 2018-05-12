@@ -1,6 +1,5 @@
 import json
 import time
-import tkinter
 
 import flask
 import telebot
@@ -98,7 +97,10 @@ def get_explanation(message):
     explanation = engine.search(message.text, lang=db_manager.get_lang(message.chat.id))
     logger.bot_logger.info('Send to %s: %s...'
                            % (message.chat.id, explanation[:min(140, len(explanation))]))
-    bot.send_message(message.chat.id, explanation)
+    for position in range(len(explanation) // (2**12) + 1):
+        from_position = position * (2**12)
+        to_position = min(len(explanation), (position + 1) * (2**12))
+        bot.send_message(message.chat.id, explanation[from_position:to_position])
 
 
 bot.remove_webhook()
