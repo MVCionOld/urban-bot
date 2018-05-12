@@ -1,4 +1,5 @@
 import datetime
+import json
 import sqlite3
 import tkinter
 
@@ -33,9 +34,11 @@ def language_frequency(chat_id):
     with sqlite3.connect(config.DB_NAME) as connection:
         cursor = connection.cursor()
         langs, percantage = [], []
-        for part, explanation in cursor.execute(query).fetchall():
-            percantage.append(round(part * 100, 0))
-            langs.append(explanation.upper())
+        with open('bot_commands.json') as bot_activity_file:
+            bot_activity = json.loads(bot_activity_file.read())
+            for part, lang in cursor.execute(query).fetchall():
+                percantage.append(round(part * 100, 0))
+                langs.append(bot_activity["vocabulary"][lang])
         extended_cnt = len(langs)
         pos = numpy.arange(extended_cnt)
         matplotlib.pyplot.barh(pos, percantage, color='blue', edgecolor='black')
