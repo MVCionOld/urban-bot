@@ -51,6 +51,12 @@ def handle_statistics(message):
                      bot_activity['commands'][db_manager.get_lang(message.chat.id)][message.text])
 
 
+@bot.message_handler(commands=['top'])
+def handle_statistics(message):
+    logger.bot_logger.info("%s: %s" % (message.chat, message.text))
+    print(message.text)
+
+
 @bot.message_handler(commands=['lang'])
 def handle_lang(message):
     keyboard = telebot.types.InlineKeyboardMarkup()
