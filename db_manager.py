@@ -104,6 +104,7 @@ def get_top(limit):
     if limit <= 0:
         return []
     with sqlite3.Connection(config.DB_NAME) as connection:
+        min(100, limit)
         cursor = connection.cursor()
         query = """
             SELECT 
@@ -115,6 +116,6 @@ def get_top(limit):
             ORDER BY
               frequency_cnt DESC
             LIMIT {0};
-        """.format(limit,)
+        """.format(min(100, limit),)
         for i, term in enumerate(cursor.execute(query).fetchall()):
             yield "\t{0}.\n{1}".format(i + 1, term[0])
