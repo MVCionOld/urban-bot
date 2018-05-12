@@ -41,6 +41,5 @@ class SearchEngine:
         return explanation.strip().format(text)
 
     def get_top(self, limit, lang="en"):
-
         for position, response in db_manager.get_top(limit):
             yield "{0}.\n{1}".format(position, self.translator.translate(response, lang))
