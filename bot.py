@@ -52,7 +52,7 @@ def handle_statistics(message):
 
 
 @bot.message_handler(commands=['top'])
-def handle_statistics(message):
+def get_top(message):
     logger.bot_logger.info("%s: %s" % (message.chat, message.text))
     if message.chat.split() != 2:
         bot.send_message(message.chat.id,
