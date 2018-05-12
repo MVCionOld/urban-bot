@@ -108,7 +108,8 @@ def get_top(limit):
         cursor = connection.cursor()
         query = """
             SELECT 
-              urban_request_txt
+              urban_request_txt,
+              frequency_cnt
             FROM 
               REQUEST
             WHERE
@@ -118,4 +119,4 @@ def get_top(limit):
             LIMIT {0};
         """.format(min(100, limit),)
         for i, term in enumerate(cursor.execute(query).fetchall()):
-            yield (i + 1, term[0])
+            yield (i + 1, term[0], term[1])

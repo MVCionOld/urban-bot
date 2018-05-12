@@ -1,9 +1,11 @@
 import json
+import os
 import time
 
 import flask
 import telebot
 
+import analytics
 import config
 import db_manager
 import logger
@@ -49,6 +51,16 @@ def handle_statistics(message):
     logger.bot_logger.info("%s: %s" % (message.chat, message.text))
     lang = db_manager.get_lang(message.chat.id)
     bot.send_message(message.chat.id, bot_activity['commands'][lang][message.text])
+    lang_fname = analytics.language_frequency(message.chat.id)
+    with open(lang_fname, 'rb') as lang_bar_chart:
+        bot.send_message(message.chat.id, bot_activity['commands'][lang]["statistics"]["users"])
+        bot.send_photo(message.chat.id, lang_bar_chart)
+    os.remove(lang_fname)
+    req_fname = analytics.request_frequency(message.chat.id)
+    with open(req_fname, 'rb') as req_bar_chart:
+        bot.send_message(message.chat.id, bot_activity['commands'][lang]["statistics"]["terms"])
+        bot.send_photo(message.chat.id, req_bar_chart)
+    os.remove(req_fname)
 
 
 @bot.message_handler(commands=['top'])
@@ -93,7 +105,10 @@ def get_explanation(message):
     explanation = engine.search(message.text, lang=db_manager.get_lang(message.chat.id))
     logger.bot_logger.info('Send to %s: %s...'
                            % (message.chat.id, explanation[:min(140, len(explanation))]))
-    bot.send_message(message.chat.id, explanation)
+    for position in range(len(explanation) // (2 ** 12) + 1):
+        from_position = position * (2 ** 12)
+        to_position = min(len(explanation), (position + 1) * (2 ** 12))
+        bot.send_message(message.chat.id, explanation[from_position:to_position])
 
 
 bot.remove_webhook()
