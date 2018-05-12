@@ -57,6 +57,7 @@ def get_top(message):
     if message.text.split(' ') != 2:
         bot.send_message(message.chat.id,
                          bot_activity['commands'][db_manager.get_lang(message.chat.id)]["top_error"])
+        print('size')
     else:
         _, limit = message.text.split(' ')
         try:
@@ -66,6 +67,7 @@ def get_top(message):
                     i, term
                 ))
         except ValueError:
+            print('value')
             bot.send_message(message.chat.id,
                              bot_activity['commands'][db_manager.get_lang(message.chat.id)]["top_error"])
 
