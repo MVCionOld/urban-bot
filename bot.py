@@ -62,8 +62,8 @@ def get_top(message):
         try:
             limit = int(limit)
             for i, term in enumerate(db_manager.get_top(limit)):
-                bot.send_message(message.chat.id, "{0}.\n{1}".format(
-                    i + 1, term[0][1:-1]
+                bot.send_message(message.chat.id, "\t{0}.\n{1}".format(
+                    i + 1, term[0]
                 ))
         except ValueError:
             bot.send_message(message.chat.id,
