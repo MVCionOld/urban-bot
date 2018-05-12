@@ -8,6 +8,7 @@ import config
 import db_manager
 import logger
 import search_engine
+import analytics
 
 engine = search_engine.SearchEngine()
 
@@ -49,6 +50,8 @@ def handle_statistics(message):
     logger.bot_logger.info("%s: %s" % (message.chat, message.text))
     lang = db_manager.get_lang(message.chat.id)
     bot.send_message(message.chat.id, bot_activity['commands'][lang][message.text])
+    with open(analytics.language_frequency(message.chat.id), 'rb') as bar_chart:
+        bot.send_photo(message.chat.id, bar_chart)
 
 
 @bot.message_handler(commands=['top'])
