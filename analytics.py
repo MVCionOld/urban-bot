@@ -43,7 +43,7 @@ def language_frequency(chat_id):
         matplotlib.pyplot.xlabel("%", fontsize=extended_cnt * 4)
         matplotlib.pyplot.ylabel("", fontsize=extended_cnt * 4)
         matplotlib.pyplot.title("", fontsize=extended_cnt * 5)
-        pic_name = 'tmp/lang_{}.png'.format(str(datetime.datetime.now()) + str(chat_id))
+        pic_name = 'tmp/lang_{}.png'.format(str(datetime.datetime.now()) + str(chat_id)).replace(' ', '')
         matplotlib.pyplot.savefig(pic_name)
         return pic_name
 
