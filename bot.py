@@ -61,10 +61,8 @@ def get_top(message):
         _, limit = message.text.split(' ')
         try:
             limit = int(limit)
-            for i, term in enumerate(db_manager.get_top(limit)):
-                bot.send_message(message.chat.id, "\t{0}.\n{1}".format(
-                    i + 1, term[0]
-                ))
+            for response in db_manager.get_top(limit):
+                bot.send_message(message.chat.id, response)
         except ValueError:
             bot.send_message(message.chat.id,
                              bot_activity['commands'][db_manager.get_lang(message.chat.id)]["top_error"])

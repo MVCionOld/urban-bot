@@ -97,6 +97,8 @@ def get_description(request_txt):
 
 
 def get_top(limit):
+    if limit <= 0:
+        return []
     with sqlite3.Connection(config.DB_NAME) as connection:
         cursor = connection.cursor()
         query = """
@@ -110,4 +112,5 @@ def get_top(limit):
               frequency_cnt DESC
             LIMIT {0};
         """.format(limit,)
-        return cursor.execute(query).fetchall()
+        for i, term in enumerate(cursor.execute(query).fetchall()):
+            yield "\t{0}.\n{1}".format(i + 1, term[0])
