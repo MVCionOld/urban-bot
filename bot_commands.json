@@ -4,6 +4,8 @@
       "/start": "Hello, I'm Telegram bot for Urban Dictionary!",
       "/lang": "Choose your language:",
       "lang_callback": "Switched to english!",
+      "/top": "Top-{} popular requests.",
+      "top_error": "Command 'top' should be like: '/top N', where N - number!",
       "/statistics": "Current statistic of last 7 days:",
       "/help": "Type certain word or words combination and get urban explanation, bro."
     },
@@ -11,6 +13,8 @@
       "/start": "Привет, я Телеграм-бот для Urban Dictionary!",
       "/lang": "Выберите язык:",
       "lang_callback": "Выбран русский язык!",
+      "/top": "Топ-{} популярных запросов.",
+      "top_error": "Команда 'top' должна быть: '/top N', где N - целое число!",
       "/statistics": "Текущая статистика за последние 7 дней:",
       "/help": "Напиши слово или словосочетание и тебе пояснят за базар."
     }

@@ -25,7 +25,7 @@ def index():
 
 
 @app.route(config.WEBHOOK_URL_PATH, methods=['POST'])
-def webhook():
+def web_hook():
     if flask.request.headers.get('content-type') == 'application/json':
         json_string = flask.request.get_data().decode('utf-8')
         logger.server_logger.info(json_string)
@@ -54,7 +54,20 @@ def handle_statistics(message):
 @bot.message_handler(commands=['top'])
 def handle_statistics(message):
     logger.bot_logger.info("%s: %s" % (message.chat, message.text))
-    print(message.text)
+    if message.chat.split() != 2:
+        bot.send_message(message.chat.id,
+                         bot_activity['commands'][db_manager.get_lang(message.chat.id)]["top_error"])
+    else:
+        _, limit = message.chat.split()
+        try:
+            limit = int(limit)
+            for i, term in enumerate(db_manager.get_top(limit)):
+                bot.send_message(message.chat.id, "{0}.\n{1}".format(
+                    i, term
+                ))
+        except ValueError:
+            bot.send_message(message.chat.id,
+                             bot_activity['commands'][db_manager.get_lang(message.chat.id)]["top_error"])
 
 
 @bot.message_handler(commands=['lang'])
