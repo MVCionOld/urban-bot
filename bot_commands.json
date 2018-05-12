@@ -6,8 +6,11 @@
       "lang_callback": "Switched to english!",
       "/top": "Top-{} popular requests.",
       "top_error": "Command 'top' should be like: '/top N', where N - number!",
-      "/statistics": "Current statistic of all users:",
-      "statistics":{},
+      "/statistics": "(Current statistic of all users)",
+      "statistics":{
+        "users": "Percent of users who use english interface:",
+        "terms": "Infographic of the most popular requests:"
+      },
       "/help": "Type certain word or words combination and get urban explanation, bro."
     },
     "ru": {
@@ -16,8 +19,11 @@
       "lang_callback": "Выбран русский язык!",
       "/top": "Топ-{} популярных запросов.",
       "top_error": "Команда 'top' должна быть: '/top N', где N - целое число!",
-      "/statistics": "Текущая статистика всех пользователей:",
-      "statistics":{},
+      "/statistics": "(Текущая статистика всех пользователей)",
+      "statistics":{
+        "users": "Процент пользователей, использующих русский интерфейс:",
+        "terms": "Инфографика самых популярных запросов:"
+      },
       "/help": "Напиши слово или словосочетание и тебе пояснят за базар."
     }
   },
